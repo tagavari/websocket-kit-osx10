@@ -4,7 +4,7 @@ import PackageDescription
 let package = Package(
     name: "websocket-kit",
     platforms: [
-        .macOS(.v10_15),
+        .macOS(.v10_10),
         .iOS(.v13),
         .tvOS(.v13),
     ],

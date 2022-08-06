@@ -143,19 +143,19 @@ public final class WebSocketClient {
         }
     }
     
-    private static func makeBootstrap(on eventLoop: EventLoopGroup) -> NIOClientTCPBootstrapProtocol {
-        #if canImport(Network)
-        if let tsBootstrap = NIOTSConnectionBootstrap(validatingGroup: eventLoop) {
-            return tsBootstrap
-        }
-       #endif
-
-       if let nioBootstrap = ClientBootstrap(validatingGroup: eventLoop) {
-           return nioBootstrap
-       }
-
-       fatalError("No matching bootstrap found")
-    }
+	private static func makeBootstrap(on eventLoop: EventLoopGroup) -> NIOClientTCPBootstrapProtocol {
+		if #available(macOS 10.14, *) {
+			if let tsBootstrap = NIOTSConnectionBootstrap(validatingGroup: eventLoop) {
+				return tsBootstrap
+			}
+		}
+		
+		if let nioBootstrap = ClientBootstrap(validatingGroup: eventLoop) {
+			return nioBootstrap
+		}
+		
+		fatalError("No matching bootstrap found")
+	}
 
     deinit {
         switch self.eventLoopGroupProvider {
